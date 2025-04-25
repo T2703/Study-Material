@@ -1,8 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl font-bold leading-tight text-gray-800">
-            {{ $profile->name }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="text-2xl font-bold leading-tight text-gray-800">
+                {{ $profile->name }}
+            </h2>
+        
+            @if(auth()->id() !== $profile->id)
+                <button onclick="openModal()" class="text-sm text-red-600 hover:underline">
+                    🚩 Report User
+                </button>
+            @endif
+        </div>
     </x-slot>
 
     <!-- Search Bar -->
@@ -138,6 +146,46 @@
                 @endforelse
             </div>
         </div>
+    </div>
 
+    <!-- Report Modal -->
+    <div id="reportModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+        <div class="bg-white w-full max-w-md p-6 rounded shadow-lg relative">
+            <button onclick="closeModal()" class="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-xl">&times;</button>
+    
+            <h2 class="text-lg font-semibold mb-4 text-gray-800">Report {{ $profile->name }}</h2>
+    
+            <form action="{{ route('report.user', $profile) }}" method="POST">
+                @csrf
+                <label for="reason" class="block text-sm font-medium text-gray-700 mb-1">Reason (optional)</label>
+                <textarea name="reason" id="reason" rows="4" class="w-full border rounded p-2 text-gray-700" placeholder="Explain the issue..."></textarea>
+    
+                <div class="mt-4 flex justify-end gap-2">
+                    <button type="button" onclick="closeModal()" class="text-gray-600 hover:text-gray-800 px-4 py-2 rounded">
+                        Cancel
+                    </button>
+                    <x-primary-button>
+                        Submit
+                    </x-primary-button>
+                </div>
+            </form>
+        </div>
     </div>
 </x-app-layout>
+
+<script>
+    function openModal() {
+        document.getElementById('reportModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('reportModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('reportModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>

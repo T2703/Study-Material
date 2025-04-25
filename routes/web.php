@@ -6,6 +6,7 @@ use App\Http\Controllers\FlashcardSetController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 // Dashboard Routes.
@@ -33,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function() {
     // Favorite Routes
     Route::post('/favorite/{type}/{id}', [FavoriteController::class, 'toggleFavorite'])->name('favorite.toggle');
 
+    // Report Routes
+    Route::post('/report/{user}', [ReportController::class, 'store'])->name('report.user');
 });
 
 Route::middleware('auth')->group(function () {
