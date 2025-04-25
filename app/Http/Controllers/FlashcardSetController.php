@@ -66,6 +66,9 @@ class FlashcardSetController extends Controller
             'user_id' => auth()->id(),
             'viewable_id' => $flashcardSet->id, // or flashcardSet->id
             'viewable_type' => get_class($flashcardSet), // or get_class($flashcardSet)
+        ],
+        [
+            'updated_at' => now(), 
         ]);
 
         return view('flashcardSet.show', compact('flashcardSet'));

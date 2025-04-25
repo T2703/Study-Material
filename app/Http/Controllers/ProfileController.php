@@ -77,4 +77,35 @@ class ProfileController extends Controller
 
         return view('profile.show', compact('profile', 'quizzes', 'flashcardSets'));
     }
+
+    public function search(Request $request, User $profile)
+    {
+        $search = $request->input('search');
+
+        $quizzes = Quiz::with('user', 'favorites')
+            ->where('title', 'like', "%{$search}%")
+            ->where('user_id', $profile->id)
+            ->get()
+            ->map(function ($quiz) {
+                $quiz->type = 'quiz';
+                return $quiz;
+            });
+        
+        $flashcardSets = FlashcardSet::with('user', 'favorites')
+            ->where('title', 'like', "%{$search}%")
+            ->where('user_id', $profile->id)
+            ->get()
+            ->map(function ($flashcardSet) {
+                $flashcardSet->type = 'flashcard';
+                return $flashcardSet;
+            });
+        
+        return view('profile.show', [
+            'profile' => $profile,
+            'quizzes' => $quizzes,
+            'flashcardSets' => $flashcardSets,
+            'search' => $search
+        ]);
+
+    }
 }

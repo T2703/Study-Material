@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class RecentView extends Model
 {
-    protected $fillable = ['user_id', 'viewable_id', 'viewable_type'];
+    public $timestamps = true;
+    
+    protected $fillable = ['user_id', 'viewable_id', 'viewable_type', 'updated_at'];
 
     public function viewable()
     {

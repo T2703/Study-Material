@@ -27,7 +27,7 @@ class HomeController extends Controller
             $query->where('user_id', $user->id);
         })->with('user')->get();
 
-        $recentViews = $user->recentViews()->with('viewable')->latest()->take(10)->get();
+        $recentViews = $user->recentViews()->with('viewable')->orderByDesc('updated_at')->take(6)->get();
     
         return view('home.index', compact(
             'quizzes',
