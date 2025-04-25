@@ -57,5 +57,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(RecentView::class);
     }
 
+    public function reportsFiled()
+    {
+        return $this->hasMany(Report::class, 'reporter_id');
+    }
+
+    public function reportsReceived()
+    {
+        return $this->hasMany(Report::class, 'reported_id');
+    }
+
 
 }
