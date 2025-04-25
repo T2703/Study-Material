@@ -16,18 +16,18 @@
 
         <div class="relative max-w-xl mx-auto">
             <div id="flashcardSlider" class="overflow-hidden">
-                <div id="flashcardSlides" class="flex transition-transform duration-200" style="width: {{ count($flashcardSet->flashcards) * 100 }}%">
+                <div id="flashcardSlides" class="flex transition-transform duration-200">
                     @foreach ($flashcardSet->flashcards as $index => $card)
                         <div class="w-full flex-shrink-0 p-4">
                             <div class="flashcard relative w-full min-h-[200px] cursor-pointer rounded shadow-sm perspective" onclick="this.classList.toggle('is-flipped')">
                                 <div class="flashcard-inner">
                                     <div class="flashcard-front">
-                                        <h2 class="text-lg font-semibold">Q:</h2>
-                                        <p>{{ $card->question }}</p>
+                                        <h2 class="text-lg font-semibold"></h2>
+                                        <h2>{{ $card->question }}</h2>
                                     </div>
                                     <div class="flashcard-back">
-                                        <h2 class="text-lg font-semibold">A:</h2>
-                                        <p>{{ $card->answer }}</p>
+                                        <h2 class="text-lg font-semibold"></h2>
+                                        <h2>{{ $card->answer }}</h2>
                                     </div>
                                 </div>
                             </div>
@@ -44,13 +44,11 @@
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto mt-6 p-6 bg-white shadow rounded space-y-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Study Mode: All Flashcards</h2>
-    
+    <div class="max-w-4xl mx-auto mt-6 p-6 bg-white shadow rounded space-y-6">    
         @foreach ($flashcardSet->flashcards as $index => $card)
             <div class="border rounded p-4 bg-gray-50 shadow-sm">
-                <h3 class="font-semibold text-gray-700">Q{{ $index + 1 }}: {{ $card->question }}</h3>
-                <p class="mt-2 text-blue-700"><strong>A:</strong> {{ $card->answer }}</p>
+                <h2 class="font-semibold text-gray-700">{{ $card->question }}</h2>
+                <p class="mt-2 text-blue-700">{{ $card->answer }}</p>
             </div>
         @endforeach
     </div>

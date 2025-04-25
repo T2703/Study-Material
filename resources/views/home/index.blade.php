@@ -64,8 +64,10 @@
                     <div class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $flashcardSet->title }}</h4>
             
-                        <div class="flex items-center gap-2">
-                            <a href="{{ route('flashcardSet.show', $flashcardSet) }}" class="text-blue-600 hover:underline">View Set</a>
+                        <div class="flex justify-end mt-4">
+                            <a href="{{ route('flashcardSet.show', $flashcardSet) }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm font-medium transition">
+                                View Set
+                            </a>
                         </div>
             
                         <!-- Dropdown Menu -->
@@ -109,29 +111,31 @@
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse ($favoriteQuizzes as $favoriteQuiz)
-                    <div class="bg-white shadow-md rounded-lg p-4">
+                    <div class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $favoriteQuiz->title }}</h4>
                         <a href="{{ route('profile.show', $favoriteQuiz->user->id) }}" class="text-sm text-gray-500">By: {{ $favoriteQuiz->user->name }}</a>
                         <div class="flex justify-end mt-4">
                             <a href="{{ route('quiz.take', $favoriteQuiz) }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm font-medium transition">
                                 Take Quiz
                             </a>
-                        </div>                        
-
-                        <form action="{{ route('favorite.toggle', ['type' => 'quiz', 'id' => $favoriteQuiz->id]) }}" method="POST">
-                            @csrf
-                            <button type="submit">
-                                @if($favoriteQuiz->favorites->contains('user_id', auth()->id()))
-                                    ❤️ 
-                                @else
-                                    🤍
-                                @endif
-                            </button>
-                        </form>
-
-                        <span class="text-xs text-gray-500">
-                            {{ $favoriteQuiz->favorites->count() }} {{ Str::plural('Favorite', $favoriteQuiz->favorites->count()) }}
+                        </div>    
+                        
+                        <span class="text-xs text-gray-500 block mt-2">
+                            ❤️ {{ $favoriteQuiz->favorites->count() }}
                         </span>
+
+                        <div class="absolute top-2 right-2">
+                            <form action="{{ route('favorite.toggle', ['type' => 'quiz', 'id' => $favoriteQuiz->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit">
+                                    @if($favoriteQuiz->favorites->contains('user_id', auth()->id()))
+                                        ❤️ 
+                                    @else
+                                        🤍
+                                    @endif
+                                </button>
+                            </form>
+                        </div>
 
                     </div>
 
@@ -147,7 +151,7 @@
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse ($favoriteFlashcardSets as $favoriteFlashcardSet)
-                    <div class="bg-white shadow-md rounded-lg p-4">
+                    <div class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $favoriteFlashcardSet->title }}</h4>
                         <a href="{{ route('profile.show', $favoriteFlashcardSet->user->id) }}" class="text-sm text-gray-500">By: {{ $favoriteFlashcardSet->user->name }}</a>
                         <div class="flex justify-end mt-4">
@@ -155,22 +159,23 @@
                                 View Set
                             </a>
                         </div>
-                        
 
-                        <form action="{{ route('favorite.toggle', ['type' => 'flashcard', 'id' => $favoriteFlashcardSet->id]) }}" method="POST">
-                            @csrf
-                            <button type="submit">
-                                @if($favoriteFlashcardSet->favorites->contains('user_id', auth()->id()))
-                                    ❤️ Unfavorite
-                                @else
-                                    🤍 Favorite
-                                @endif
-                            </button>
-                        </form>
-
-                        <span class="text-xs text-gray-500">
-                            {{ $favoriteFlashcardSet->favorites->count() }} {{ Str::plural('Favorite', $favoriteFlashcardSet->favorites->count()) }}
+                        <span class="text-xs text-gray-500 block mt-2">
+                            ❤️ {{ $favoriteFlashcardSet->favorites->count() }}
                         </span>
+                        
+                        <div class="absolute top-2 right-2">
+                            <form action="{{ route('favorite.toggle', ['type' => 'flashcard', 'id' => $favoriteFlashcardSet->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit">
+                                    @if($favoriteFlashcardSet->favorites->contains('user_id', auth()->id()))
+                                        ❤️ 
+                                    @else
+                                        🤍 
+                                    @endif
+                                </button>
+                            </form>
+                        </div>
 
                     </div>
                 @empty

@@ -66,7 +66,7 @@ class QuizController extends Controller
         $createdAnswers = $question->answers()->get();
         logger()->info("Question: {$question->question}", $createdAnswers->toArray());
 
-       return to_route('quiz.show', $quiz);
+       return to_route('quiz.take', $quiz);
     }
 
     /**
@@ -199,6 +199,9 @@ class QuizController extends Controller
             'user_id' => auth()->id(),
             'viewable_id' => $quiz->id, 
             'viewable_type' => Quiz::class, 
+        ],
+        [
+            'updated_at' => now(), 
         ]);
 
         return view('quiz.take', compact('quiz'));
