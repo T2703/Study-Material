@@ -3,6 +3,24 @@
         <h2 class="text-xl font-semibold leading-tight">
             Quiz Results – {{ $quiz->title }}
         </h2>
+        <p class="text-sm text-gray-500 mt-1">
+            By: 
+            <a href="{{ route('profile.show', $quiz->user->id) }}" class="hover:underline">
+                {{ $quiz->user->name }}
+            </a>
+        </p>
+        @if ($quiz->user_id != auth()->id())
+            <!-- Favorite Button Under Author -->
+            <div 
+                x-data="favoriteComponent({{ $quiz->id }}, '{{ $quiz->favorites->contains('user_id', auth()->id()) ? 'true' : 'false' }}', '{{ $quiz->favorites->count() }}', 'quiz')" 
+                class="mt-2"
+            >
+                <form @submit.prevent="toggle">
+                    <button type="submit" x-text="favorited ? '❤️' : '🤍'" class="text-xl"></button>
+                </form>
+
+            </div>
+        @endif
     </x-slot>
 
     <div class="max-w-4xl mx-auto mt-6 p-6 bg-white shadow rounded space-y-6">
@@ -47,3 +65,26 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    function favoriteComponent(id, isFavorited, count, type) {
+        return {
+            favorited: isFavorited === 'true',
+            count: parseInt(count),
+            async toggle() {
+                const response = await fetch(`/favorite/${type}/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    this.favorited = !this.favorited;
+                    this.count += this.favorited ? 1 : -1;
+                }
+            }
+        };
+    }
+</script>

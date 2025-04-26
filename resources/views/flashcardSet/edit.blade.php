@@ -53,10 +53,19 @@
                     ➕ Add Flashcard
                 </button>
 
-                <x-primary-button>Update Flashcard Set</x-primary-button>
+                <x-primary-button>Update Flashcard Set</x-primary-button> 
             </div>
-
         </form>
+
+        <div class="flex items-center gap-4">    
+            <form action="{{ route('flashcardSet.destroy', $flashcardSet) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this quiz?')" class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded transition duration-200">
+                    🗑️ Delete
+                </button>
+            </form>
+        </div>
     </div>
 </x-app-layout>
 

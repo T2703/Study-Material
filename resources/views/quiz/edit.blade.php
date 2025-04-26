@@ -36,66 +36,67 @@
                 <button type="button" onclick="addQuestion()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded">
                     ➕ Add Question
                 </button>
-            
-                <div class="flex items-center gap-4">
-                    <x-primary-button>Update Quiz</x-primary-button>
-            
-                    <form action="{{ route('quiz.destroy', $quiz) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this quiz?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded transition duration-200">
-                            🗑️ Delete
-                        </button>
-                    </form>
-                </div>
+    
+                <x-primary-button>Update Quiz</x-primary-button>
             </div>
         </form>
 
+        <div class="flex items-center gap-4">
+            
+            <form action="{{ route('quiz.destroy', $quiz) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this quiz?')" class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded transition duration-200">
+                    🗑️ Delete
+                </button>
+            </form>
+        </div>
+
         @if(isset($quiz))
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                @foreach ($quiz->questions as $qIndex => $question)
-                    addQuestionWithData(@json($question), {{ $qIndex }});
-                @endforeach
-            });
-
-            function addQuestionWithData(question, qIndex) {
-                const container = document.getElementById('questionsContainer');
-                const questionBlock = document.createElement('div');
-                questionBlock.classList.add('p-4', 'bg-gray-100', 'rounded', 'shadow-sm');
-                questionBlock.id = `question-block-${qIndex}`;
-
-                let answerInputs = '';
-                question.answers.forEach((answer, aIndex) => {
-                    const isCorrect = answer.is_correct ? 'checked' : '';
-                    answerInputs += `
-                        <div class="flex items-center gap-2">
-                            <input type="radio" name="questions[${qIndex}][correct]" value="${aIndex}" ${isCorrect} required>
-                            <input type="text" name="questions[${qIndex}][answers][]" class="w-full rounded border-gray-300" value="${answer.answer}" required>
-                        </div>
-                    `;
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    @foreach ($quiz->questions as $qIndex => $question)
+                        addQuestionWithData(@json($question), {{ $qIndex }});
+                    @endforeach
                 });
 
-                questionBlock.innerHTML = `
-                    <label class="block font-semibold">Question</label>
-                    <input type="text" name="questions[${qIndex}][question]" class="w-full mb-2 rounded border-gray-300" required value="${question.question}">
+                function addQuestionWithData(question, qIndex) {
+                    const container = document.getElementById('questionsContainer');
+                    const questionBlock = document.createElement('div');
+                    questionBlock.classList.add('p-4', 'bg-gray-100', 'rounded', 'shadow-sm');
+                    questionBlock.id = `question-block-${qIndex}`;
 
-                    <div class="answers-container space-y-2" id="answers-${qIndex}">
-                        <label class="block font-semibold mt-2">Answers</label>
-                        ${answerInputs}
-                    </div>
+                    let answerInputs = '';
+                    question.answers.forEach((answer, aIndex) => {
+                        const isCorrect = answer.is_correct ? 'checked' : '';
+                        answerInputs += `
+                            <div class="flex items-center gap-2">
+                                <input type="radio" name="questions[${qIndex}][correct]" value="${aIndex}" ${isCorrect} required>
+                                <input type="text" name="questions[${qIndex}][answers][]" class="w-full rounded border-gray-300" value="${answer.answer}" required>
+                            </div>
+                        `;
+                    });
 
-                    <div class="flex gap-4 mt-2">
-                        <button type="button" onclick="addAnswer(${qIndex})" class="text-sm text-blue-600 hover:underline">+ Add Answer</button>
-                        <button type="button" onclick="removeAnswer(${qIndex})" class="text-sm text-red-600 hover:underline">− Remove Last Answer</button>
-                        <button type="button" onclick="removeQuestion(${qIndex})" class="text-sm text-gray-600 hover:underline ml-auto">🗑️ Remove Question</button>
-                    </div>
-                `;
+                    questionBlock.innerHTML = `
+                        <label class="block font-semibold">Question</label>
+                        <input type="text" name="questions[${qIndex}][question]" class="w-full mb-2 rounded border-gray-300" required value="${question.question}">
 
-                container.appendChild(questionBlock);
-                questionIndex = qIndex + 1; // keep index in sync
-            }
-        </script>
+                        <div class="answers-container space-y-2" id="answers-${qIndex}">
+                            <label class="block font-semibold mt-2">Answers</label>
+                            ${answerInputs}
+                        </div>
+
+                        <div class="flex gap-4 mt-2">
+                            <button type="button" onclick="addAnswer(${qIndex})" class="text-sm text-blue-600 hover:underline">+ Add Answer</button>
+                            <button type="button" onclick="removeAnswer(${qIndex})" class="text-sm text-red-600 hover:underline">− Remove Last Answer</button>
+                            <button type="button" onclick="removeQuestion(${qIndex})" class="text-sm text-gray-600 hover:underline ml-auto">🗑️ Remove Question</button>
+                        </div>
+                    `;
+
+                    container.appendChild(questionBlock);
+                    questionIndex = qIndex + 1; // keep index in sync
+                }
+            </script>
         @endif
     </div>
 </x-app-layout>
@@ -119,6 +120,8 @@
                 <label class="block font-semibold mt-2">Answers</label>
                 ${generateAnswerInput(qIndex, 0, true)}  
                 ${generateAnswerInput(qIndex, 1, false)} 
+                ${generateAnswerInput(qIndex, 2, false)} 
+                ${generateAnswerInput(qIndex, 3, false)} 
             </div>
 
             <div class="flex gap-4 mt-2">

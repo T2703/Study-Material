@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-2xl font-bold leading-tight text-gray-800">
-            Find Study Material
+            Favorite Study Material
         </h2>
     </x-slot>
 
     <!-- Search Bar -->
     <div class="flex justify-center mt-6">
-        <form action="{{ route('finder.search') }}" method="GET" class="w-full max-w-xl flex items-center bg-white border border-gray-300 rounded-lg shadow-sm px-4 py-2">
+        <form action="{{ route('favorite.search', ['profile' => $profile->id]) }}" method="GET" class="w-full max-w-xl flex items-center bg-white border border-gray-300 rounded-lg shadow-sm px-4 py-2">
             <input
                 type="text"
                 name="search"
@@ -24,7 +24,7 @@
         </form>
     </div>
 
-    <div class="max-w-7xl mx-auto py-6 space-y-8" x-data="{ tab: 'quizzes' }">
+    <div class="max-w-7xl mx-auto py-6 space-y-8" x-data="{ tab: (new URLSearchParams(window.location.search).get('tab')) || 'quizzes' }">
 
         <!-- Tabs Navigation -->
         <div class="flex space-x-4 mb-6 border-b justify-center">
@@ -50,7 +50,7 @@
             <h3 class="text-xl font-semibold mb-4">Quizzes</h3>
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                @forelse ($quizzes as $quiz)
+                @forelse ($favoriteQuizzes as $quiz)
                     <div class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $quiz->title }}</h4>
                         <a href="{{ route('profile.show', ['profile' => $quiz->user->id, 'tab' => 'quizzes']) }}" class="text-sm text-gray-500">By: {{ $quiz->user->name }}</a>
@@ -84,7 +84,7 @@
             <h3 class="text-xl font-semibold mb-4">Flashcard Sets</h3>
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                @forelse ($flashcardSets as $flashcardSet)
+                @forelse ($favoriteFlashcardSets as $flashcardSet)
                     <div class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $flashcardSet->title }}</h4>
                         <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}" class="text-sm text-gray-500">By: {{ $flashcardSet->user->name }}</a>

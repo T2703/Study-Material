@@ -16,6 +16,12 @@
                     </x-nav-link>
                 </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('favorite.index')" :active="request()->routeIs('favorite.index')">
+                        {{ __('Favorite') }}
+                    </x-nav-link>
+                </div>
+
                 <!-- For the Create Menu Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">

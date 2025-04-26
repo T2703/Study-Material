@@ -52,6 +52,17 @@
                 @empty
                     <p class="text-gray-500">No quizzes found.</p>
                 @endforelse
+
+                @if ($totalQuizzes > 5)
+                    <div class="relative bg-white shadow-md rounded-lg p-4">
+                        <div class="flex justify-center mt-4">
+                            <a href="{{ route('profile.show', ['profile' => auth()->id(), 'tab' => 'quizzes']) }}"
+                            class="text-indigo-600 hover:underline text-sm font-medium">
+                                View All Quizzes →
+                            </a>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -100,6 +111,17 @@
                 @empty
                     <p class="text-gray-500">No flashcard sets found.</p>
                 @endforelse
+
+                @if ($totalFlashcardSets > 5)
+                    <div class="relative bg-white shadow-md rounded-lg p-4">
+                        <div class="flex justify-center mt-4">
+                            <a href="{{ route('profile.show', ['profile' => auth()->id(), 'tab' => 'flashcards']) }}"
+                            class="text-indigo-600 hover:underline text-sm font-medium">
+                                View All Flashcards →
+                            </a>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -111,7 +133,7 @@
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse ($favoriteQuizzes as $favoriteQuiz)
-                    <div class="relative bg-white shadow-md rounded-lg p-4">
+                    <div x-favorite-card class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $favoriteQuiz->title }}</h4>
                         <a href="{{ route('profile.show', $favoriteQuiz->user->id) }}" class="text-sm text-gray-500">By: {{ $favoriteQuiz->user->name }}</a>
                         <div class="flex justify-end mt-4">
@@ -125,16 +147,16 @@
                         </span>
 
                         <div class="absolute top-2 right-2">
-                            <form action="{{ route('favorite.toggle', ['type' => 'quiz', 'id' => $favoriteQuiz->id]) }}" method="POST">
-                                @csrf
-                                <button type="submit">
-                                    @if($favoriteQuiz->favorites->contains('user_id', auth()->id()))
-                                        ❤️ 
-                                    @else
-                                        🤍
-                                    @endif
-                                </button>
-                            </form>
+                            <!-- Favorite  -->
+                            <div 
+                                x-data="favoriteComponent({{ $favoriteQuiz->id }}, '{{ $favoriteQuiz->favorites->contains('user_id', auth()->id()) ? 'true' : 'false' }}', '{{ $favoriteQuiz->favorites->count() }}', 'quiz')" 
+                                class="mt-2"
+                            >
+                                <form @submit.prevent="toggle">
+                                    <button type="submit" x-text="favorited ? '❤️' : '🤍'" class="text-xl"></button>
+                                </form>
+
+                            </div>
                         </div>
 
                     </div>
@@ -142,6 +164,16 @@
                 @empty
                     <p class="text-gray-500">No quizzes found.</p>
                 @endforelse
+                @if ($totalFavoriteQuizzes > 5)
+                    <div class="relative bg-white shadow-md rounded-lg p-4">
+                        <div class="flex justify-center mt-4">
+                            <a href="{{ route('favorite.index', ['profile' => auth()->id(), 'tab' => 'quizzes']) }}"
+                            class="text-indigo-600 hover:underline text-sm font-medium">
+                                View All Favorite Quizzes →
+                            </a>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -151,7 +183,7 @@
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse ($favoriteFlashcardSets as $favoriteFlashcardSet)
-                    <div class="relative bg-white shadow-md rounded-lg p-4">
+                    <div x-favorite-card class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $favoriteFlashcardSet->title }}</h4>
                         <a href="{{ route('profile.show', $favoriteFlashcardSet->user->id) }}" class="text-sm text-gray-500">By: {{ $favoriteFlashcardSet->user->name }}</a>
                         <div class="flex justify-end mt-4">
@@ -165,22 +197,36 @@
                         </span>
                         
                         <div class="absolute top-2 right-2">
-                            <form action="{{ route('favorite.toggle', ['type' => 'flashcard', 'id' => $favoriteFlashcardSet->id]) }}" method="POST">
-                                @csrf
-                                <button type="submit">
-                                    @if($favoriteFlashcardSet->favorites->contains('user_id', auth()->id()))
-                                        ❤️ 
-                                    @else
-                                        🤍 
-                                    @endif
-                                </button>
-                            </form>
+
+                            <div class="absolute top-2 right-2">
+                                <!-- Favorite  -->
+                                <div 
+                                    x-data="favoriteComponent({{ $favoriteFlashcardSet->id }}, '{{ $favoriteFlashcardSet->favorites->contains('user_id', auth()->id()) ? 'true' : 'false' }}', '{{ $favoriteFlashcardSet->favorites->count() }}', 'flashcard')" 
+                                    class="mt-2"
+                                >
+                                    <form @submit.prevent="toggle">
+                                        <button type="submit" x-text="favorited ? '❤️' : '🤍'" class="text-xl"></button>
+                                    </form>
+    
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                 @empty
                     <p class="text-gray-500">No flashcard sets found.</p>
                 @endforelse
+                
+                @if ($totalFavoriteFlashcardSets > 5)
+                    <div class="relative bg-white shadow-md rounded-lg p-4">
+                        <div class="flex justify-center mt-4">
+                            <a href="{{ route('favorite.index', ['profile' => auth()->id(), 'tab' => 'flashcards']) }}"
+                            class="text-indigo-600 hover:underline text-sm font-medium">
+                                View All Favorite Flashcard Sets →
+                            </a>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -218,3 +264,31 @@
 
     </div>
 </x-app-layout>
+
+<script>
+    function favoriteComponent(id, isFavorited, count, type) {
+        return {
+            favorited: isFavorited === 'true',
+            count: parseInt(count),
+            async toggle() {
+                const response = await fetch(`/favorite/${type}/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    this.favorited = !this.favorited;
+                    this.count += this.favorited ? 1 : -1;
+
+                    // Remove the card if unfavorited and in favorites list
+                    if (!this.favorited && this.$el.closest('[x-favorite-card]')) {
+                        this.$el.closest('[x-favorite-card]').remove();
+                    }
+                }
+            }
+        };
+    }
+</script>

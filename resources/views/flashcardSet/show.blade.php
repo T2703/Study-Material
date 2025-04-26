@@ -2,16 +2,55 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight">
+        <h2 class="text-2xl font-bold leading-tight text-gray-800">
             {{ $flashcardSet->title }}
-            <br>
-            <a href="{{ route('profile.show', $flashcardSet->user->id) }}" class="text-sm text-gray-500">By: {{ $flashcardSet->user->name }}</a>
         </h2>
+        <p class="text-sm text-gray-500 mt-1">
+            By: <a href="{{ route('profile.show', $flashcardSet->user->id) }}" class="hover:underline">{{ $flashcardSet->user->name }}</a>
+        </p>
+        @if ($flashcardSet->user_id != auth()->id())
+            <form action="{{ route('favorite.toggle', ['type' => 'flashcard', 'id' => $flashcardSet->id]) }}" method="POST">
+                @csrf
+                <button type="submit">
+                    @if($flashcardSet->favorites->contains('user_id', auth()->id()))
+                        ❤️ 
+                    @else
+                        🤍
+                    @endif
+                </button>
+            </form>
+        @endif
+        @if ($flashcardSet->user_id === auth()->id())
+            <div class="absolute right-2">
+                <x-dropdown width="48">
+                    <x-slot name="trigger">
+                        <button class="text-gray-400 hover:text-gray-600 focus:outline-none">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
+                            </svg>
+                        </button>
+                    </x-slot>
+            
+                    <x-slot name="content">
+                        <x-dropdown-link :href="route('flashcardSet.edit', $flashcardSet)">
+                            ✏️ Edit
+                        </x-dropdown-link>
+                        <form method="POST" action="{{ route('flashcardSet.destroy', $flashcardSet) }}" onsubmit="return confirm('Are you sure you want to delete this quiz?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                🗑️ Delete
+                            </button>
+                        </form>
+                    </x-slot>
+                </x-dropdown>
+            </div>
+        @endif
     </x-slot>
 
     <div class="max-w-4xl mx-auto mt-6 p-6 bg-white shadow rounded">
         <p class="mb-4 text-gray-700">
-            <strong>Description:</strong> {{ $flashcardSet->description ?? 'No description provided.' }}
+            {{ $flashcardSet->description ?? 'No description provided.' }}
         </p>
 
         <div class="relative max-w-xl mx-auto">
@@ -41,14 +80,31 @@
                 <button onclick="changeCard(-1)" class="text-blue-600 hover:underline">← Previous</button>
                 <button onclick="changeCard(1)" class="text-blue-600 hover:underline">Next →</button>
             </div>
+
+            <!-- Flashcard Counter -->
+            <div class="text-center mt-2 text-gray-600 font-medium">
+                <span id="cardCounter">1</span> / {{ count($flashcardSet->flashcards) }}
+            </div>
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto mt-6 p-6 bg-white shadow rounded space-y-6">    
+    <div class="max-w-4xl mx-auto mt-80 space-y-6">     
+        <h2 class="text-2xl font-bold leading-tight text-gray-800">
+            Questions & Answers
+        </h2>
         @foreach ($flashcardSet->flashcards as $index => $card)
-            <div class="border rounded p-4 bg-gray-50 shadow-sm">
-                <h2 class="font-semibold text-gray-700">{{ $card->question }}</h2>
-                <p class="mt-2 text-blue-700">{{ $card->answer }}</p>
+            <div class="flex flex-col md:flex-row bg-gray-100 rounded-lg shadow-md overflow-hidden">
+                
+                <!-- Question -->
+                <div class="w-full md:w-1/2 p-6 border-b md:border-b-0 md:border-r border-gray-300">
+                    <p class="text-gray-800">{{ $card->question }}</p>
+                </div>
+    
+                <!-- Answer -->
+                <div class="w-full md:w-1/2 p-6">
+                    <p class="text-blue-700">{{ $card->answer }}</p>
+                </div>
+    
             </div>
         @endforeach
     </div>
@@ -68,6 +124,8 @@
         if (currentCardIndex >= totalCards) currentCardIndex = 0;
 
         slides.style.transform = `translateX(-${currentCardIndex * 100}%)`;
+
+        document.getElementById('cardCounter').textContent = currentCardIndex + 1;
     }
 
     // Arrow key navigation
@@ -75,4 +133,5 @@
         if (e.key === 'ArrowRight') changeCard(1);
         if (e.key === 'ArrowLeft') changeCard(-1);
     });
+
 </script>

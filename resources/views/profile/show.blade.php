@@ -32,7 +32,7 @@
         </form>
     </div>
 
-    <div class="max-w-7xl mx-auto py-6 space-y-8" x-data="{ tab: 'quizzes' }">
+    <div class="max-w-7xl mx-auto py-6 space-y-8" x-data="{ tab: '{{ request('tab', 'quizzes') }}' }">
 
         <!-- Tabs Navigation -->
         <div class="flex space-x-4 mb-6 border-b justify-center">
@@ -68,30 +68,42 @@
                         </div>
                         
                         @if ($quiz->user_id === auth()->id())
-                        <div class="absolute top-2 right-2">
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
-                                        </svg>
-                                    </button>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <x-dropdown-link :href="route('quiz.edit', $quiz)">
-                                        ✏️ Edit
-                                    </x-dropdown-link>
-                                    <form method="POST" action="{{ route('quiz.destroy', $quiz) }}" onsubmit="return confirm('Are you sure?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                            🗑️ Delete
+                            <div class="absolute top-2 right-2">
+                                <x-dropdown align="right" width="48">
+                                    <x-slot name="trigger">
+                                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
+                                            </svg>
                                         </button>
-                                    </form>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
+                                    </x-slot>
+
+                                    <x-slot name="content">
+                                        <x-dropdown-link :href="route('quiz.edit', $quiz)">
+                                            ✏️ Edit
+                                        </x-dropdown-link>
+                                        <form method="POST" action="{{ route('quiz.destroy', $quiz) }}" onsubmit="return confirm('Are you sure?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                                🗑️ Delete
+                                            </button>
+                                        </form>
+                                    </x-slot>
+                                </x-dropdown>
+                            </div>
+                        @else
+                            <!-- Favorite -->
+                            <div 
+                                x-data="favoriteComponent({{ $quiz->id }}, '{{ $quiz->favorites->contains('user_id', auth()->id()) ? 'true' : 'false' }}', '{{ $quiz->favorites->count() }}', 'quiz')" 
+                                class="absolute top-2 right-2"
+                            >
+                                <form @submit.prevent="toggle">
+                                    <button type="submit" x-text="favorited ? '❤️' : '🤍'"></button>
+                                </form>
+                            
+                                <span class="text-xs text-gray-500 block mt-2" x-text="`❤️ ${count}`"></span>
+                            </div>
                         @endif
                     </div>
                 @empty
@@ -115,30 +127,42 @@
                         </div>
 
                         @if ($flashcardSet->user_id === auth()->id())
-                        <div class="absolute top-2 right-2">
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
-                                        </svg>
-                                    </button>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <x-dropdown-link :href="route('flashcardSet.edit', $flashcardSet)">
-                                        ✏️ Edit
-                                    </x-dropdown-link>
-                                    <form method="POST" action="{{ route('flashcardSet.destroy', $flashcardSet) }}" onsubmit="return confirm('Are you sure?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                            🗑️ Delete
+                            <div class="absolute top-2 right-2">
+                                <x-dropdown align="right" width="48">
+                                    <x-slot name="trigger">
+                                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
+                                            </svg>
                                         </button>
-                                    </form>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
+                                    </x-slot>
+
+                                    <x-slot name="content">
+                                        <x-dropdown-link :href="route('flashcardSet.edit', $flashcardSet)">
+                                            ✏️ Edit
+                                        </x-dropdown-link>
+                                        <form method="POST" action="{{ route('flashcardSet.destroy', $flashcardSet) }}" onsubmit="return confirm('Are you sure?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                                🗑️ Delete
+                                            </button>
+                                        </form>
+                                    </x-slot>
+                                </x-dropdown>
+                            </div>
+                        @else
+                            <!-- Favorite -->
+                            <div 
+                            x-data="favoriteComponent({{ $flashcardSet->id }}, '{{ $flashcardSet->favorites->contains('user_id', auth()->id()) ? 'true' : 'false' }}', '{{ $flashcardSet->favorites->count() }}', 'flashcard')" 
+                            class="absolute top-2 right-2"
+                            >
+                            <form @submit.prevent="toggle">
+                                <button type="submit" x-text="favorited ? '❤️' : '🤍'"></button>
+                            </form>
+                        
+                            <span class="text-xs text-gray-500 block mt-2" x-text="`❤️ ${count}`"></span>
+                            </div>
                         @endif
                     </div>
                 @empty
@@ -187,5 +211,26 @@
         if (event.target === modal) {
             closeModal();
         }
+    }
+
+    function favoriteComponent(id, isFavorited, count, type) {
+        return {
+            favorited: isFavorited === 'true',
+            count: parseInt(count),
+            async toggle() {
+                const response = await fetch(`/favorite/${type}/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    this.favorited = !this.favorited;
+                    this.count += this.favorited ? 1 : -1;
+                }
+            }
+        };
     }
 </script>

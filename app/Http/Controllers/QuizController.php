@@ -132,7 +132,7 @@ class QuizController extends Controller
                 ]);
             }
         }
-        return to_route('quiz.show', $quiz)->with('message', 'Quiz updated!');
+        return to_route('quiz.take', $quiz)->with('message', 'Quiz updated!');
     }
 
     /**

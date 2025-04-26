@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html x-data="darkMode()" x-bind:class="{ 'dark': isDark }" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,3 +34,15 @@
         </div>
     </body>
 </html>
+
+<script>
+    function darkMode() {
+        return {
+            isDark: localStorage.getItem('theme') === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches,
+            toggle() {
+                this.isDark = !this.isDark;
+                localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+            }
+        }
+    }
+</script>

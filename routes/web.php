@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 // Dashboard Routes.
 Route::redirect('/', '/home')->name('dashboard');
+Route::get('/favorite/{profile}/search', [FavoriteController::class, 'search'])->name('favorite.search');
 
 Route::get('/finder/search', [FinderController::class, 'search'])->name('finder.search');
 
@@ -32,8 +33,10 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::resource('flashcardSet', FlashcardSetController::class);
 
     // Favorite Routes
+    Route::resource('favorite', FavoriteController::class);
     Route::post('/favorite/{type}/{id}', [FavoriteController::class, 'toggleFavorite'])->name('favorite.toggle');
-
+    Route::get('/favorite/{profile}/search', [FavoriteController::class, 'search'])->name('favorite.search');
+    
     // Report Routes
     Route::post('/report/{user}', [ReportController::class, 'store'])->name('report.user');
 });
