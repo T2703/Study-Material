@@ -67,7 +67,7 @@
 
     <div class="max-w-4xl mx-auto mt-6 p-6 bg-white shadow rounded">
         <p class="mb-4 text-gray-700">
-            {{ $flashcardSet->description ?? 'No description provided.' }}
+            {{ $flashcardSet->description }}
         </p>
 
         <div class="relative max-w-xl mx-auto">

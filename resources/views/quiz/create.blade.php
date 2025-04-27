@@ -136,4 +136,17 @@
             text.placeholder = `Answer ${index + 1}`;
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[action="{{ route('quiz.store') }}"]');
+
+        form.addEventListener('submit', function (e) {
+            const questionsContainer = document.getElementById('questionsContainer');
+            if (questionsContainer.children.length === 0) {
+                e.preventDefault(); // Stop the form submission
+                alert('Please add at least one question before submitting the quiz.');
+            }
+        });
+    });
+
 </script>

@@ -55,6 +55,11 @@
                         <h4 class="text-lg font-semibold mb-2">{{ $quiz->title }}</h4>
 
                         <div class="flex items-center space-x-2">
+                            <p class="text-sm text-gray-500">By: 
+                                <a href="{{ route('profile.show', ['profile' => $quiz->user->id, 'tab' => 'quizzes']) }}" class="hover:underline">
+                                    {{ $quiz->user->name }}
+                                </a>
+                            </p>
                             <a href="{{ route('profile.show', ['profile' => $quiz->user->id, 'tab' => 'quizzes']) }}">
                                 @if ($quiz->user->profile_picture)
                                     <img src="{{ asset('storage/' . $quiz->user->profile_picture) }}" 
@@ -66,11 +71,6 @@
                                         class="rounded-full w-10 h-10 object-cover">
                                 @endif
                             </a>
-                            <p class="text-sm text-gray-500">By: 
-                                <a href="{{ route('profile.show', ['profile' => $quiz->user->id, 'tab' => 'quizzes']) }}" class="hover:underline">
-                                    {{ $quiz->user->name }}
-                                </a>
-                            </p>
                         </div>
 
                         <div class="flex justify-end mt-4">
@@ -108,6 +108,11 @@
                         <h4 class="text-lg font-semibold mb-2">{{ $flashcardSet->title }}</h4>
 
                         <div class="flex items-center space-x-2">
+                            <p class="text-sm text-gray-500">By: 
+                                <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}" class="hover:underline">
+                                    {{ $flashcardSet->user->name }}
+                                </a>
+                            </p>
                             <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}">
                                 @if ($flashcardSet->user->profile_picture)
                                     <img src="{{ asset('storage/' . $flashcardSet->user->profile_picture) }}" 
@@ -118,12 +123,7 @@
                                         alt="Default Picture" 
                                         class="rounded-full w-10 h-10 object-cover">
                                 @endif
-                            </a>
-                            <p class="text-sm text-gray-500">By: 
-                                <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}" class="hover:underline">
-                                    {{ $flashcardSet->user->name }}
-                                </a>
-                            </p>
+                            </a>    
                         </div>
 
                         <div class="flex justify-end mt-4">

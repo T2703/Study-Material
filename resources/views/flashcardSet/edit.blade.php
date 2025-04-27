@@ -101,4 +101,17 @@
         const block = document.getElementById(`flashcard-block-${fcIndex}`);
         if (block) block.remove();
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[action="{{ route('flashcardSet.update', $flashcardSet) }}"]');
+
+        form.addEventListener('submit', function (e) {
+            const flashcardsContainer = document.getElementById('flashcardsContainer');
+            if (flashcardsContainer.children.length === 0) {
+                e.preventDefault(); // Stop form submission
+                alert('Please have at least one flashcard before updating the set.');
+            }
+        });
+    });
+
 </script>

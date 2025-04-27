@@ -188,4 +188,16 @@
             text.placeholder = `Answer ${index + 1}`;
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[action="{{ route('quiz.update', $quiz) }}"]');
+
+        form.addEventListener('submit', function (e) {
+            const questionsContainer = document.getElementById('questionsContainer');
+            if (!questionsContainer || questionsContainer.children.length === 0) {
+                e.preventDefault(); // Stop form submission
+                alert('Please add at least one question before updating the quiz.');
+            }
+        });
+    });
 </script>

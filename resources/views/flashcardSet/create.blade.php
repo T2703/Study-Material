@@ -75,4 +75,17 @@
         const block = document.getElementById(`flashcard-block-${fcIndex}`);
         if (block) block.remove();
     }
+
+    // This prevents it from being created (well client side that is)
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[action="{{ route('flashcardSet.store') }}"]');
+
+        form.addEventListener('submit', function (e) {
+            const flashcardsContainer = document.getElementById('flashcardsContainer');
+            if (flashcardsContainer.children.length === 0) {
+                e.preventDefault(); // stop the form
+                alert('Please add at least one flashcard before submitting.');
+            }
+        });
+    });
 </script>
