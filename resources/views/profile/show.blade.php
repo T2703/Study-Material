@@ -1,10 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="text-2xl font-bold leading-tight text-gray-800">
-                {{ $profile->name }}
-            </h2>
-        
+            <!-- Left side: Name + Profile Picture -->
+            <div class="flex items-center space-x-4">
+                <h2 class="text-2xl font-bold leading-tight text-gray-800">
+                    {{ $profile->name }}
+                </h2>
+    
+                @if ($profile->profile_picture)
+                    <img src="{{ asset('storage/' . $profile->profile_picture) }}" 
+                        alt="Profile Picture" 
+                        class="rounded-full w-10 h-10 object-cover">
+                @else
+                    <img src="{{ asset('images/default_profile.png') }}" 
+                        alt="Default Picture" 
+                        class="rounded-full w-10 h-10 object-cover">
+                @endif
+            </div>
+    
+            <!-- Right side: Report button -->
             @if(auth()->id() !== $profile->id)
                 <button onclick="openModal()" class="text-sm text-red-600 hover:underline">
                     🚩 Report User

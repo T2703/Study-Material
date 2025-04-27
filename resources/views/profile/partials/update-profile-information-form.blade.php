@@ -13,9 +13,27 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
         @csrf
         @method('patch')
+
+        <!-- Profile Picture -->
+        <div>
+            <x-input-label for="profile_picture" :value="__('Profile Picture')" />
+
+            <!-- If user already has a profile picture, show it -->
+            @if ($user->profile_picture)
+                <div class="mb-2">
+                    <img src="{{ asset('storage/' . $user->profile_picture) }}" alt="Profile Picture" class="w-24 h-24 object-cover rounded-full">
+                </div>
+            @endif
+
+            <input id="profile_picture" name="profile_picture" type="file" class="block mt-1 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+            file:rounded-full file:border-0 file:text-sm file:font-semibold
+            file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+
+            <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
+        </div>
 
         <div>
             <x-input-label for="name" :value="__('Name')" />

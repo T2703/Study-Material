@@ -53,7 +53,26 @@
                 @forelse ($quizzes as $quiz)
                     <div class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $quiz->title }}</h4>
-                        <a href="{{ route('profile.show', ['profile' => $quiz->user->id, 'tab' => 'quizzes']) }}" class="text-sm text-gray-500">By: {{ $quiz->user->name }}</a>
+
+                        <div class="flex items-center space-x-2">
+                            <a href="{{ route('profile.show', ['profile' => $quiz->user->id, 'tab' => 'quizzes']) }}">
+                                @if ($quiz->user->profile_picture)
+                                    <img src="{{ asset('storage/' . $quiz->user->profile_picture) }}" 
+                                        alt="Profile Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @else
+                                    <img src="{{ asset('images/default_profile.png') }}" 
+                                        alt="Default Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @endif
+                            </a>
+                            <p class="text-sm text-gray-500">By: 
+                                <a href="{{ route('profile.show', ['profile' => $quiz->user->id, 'tab' => 'quizzes']) }}" class="hover:underline">
+                                    {{ $quiz->user->name }}
+                                </a>
+                            </p>
+                        </div>
+
                         <div class="flex justify-end mt-4">
                             <a href="{{ route('quiz.take', $quiz) }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm font-medium transition">
                                 Take Quiz
@@ -87,7 +106,26 @@
                 @forelse ($flashcardSets as $flashcardSet)
                     <div class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $flashcardSet->title }}</h4>
-                        <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}" class="text-sm text-gray-500">By: {{ $flashcardSet->user->name }}</a>
+
+                        <div class="flex items-center space-x-2">
+                            <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}">
+                                @if ($flashcardSet->user->profile_picture)
+                                    <img src="{{ asset('storage/' . $flashcardSet->user->profile_picture) }}" 
+                                        alt="Profile Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @else
+                                    <img src="{{ asset('images/default_profile.png') }}" 
+                                        alt="Default Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @endif
+                            </a>
+                            <p class="text-sm text-gray-500">By: 
+                                <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}" class="hover:underline">
+                                    {{ $flashcardSet->user->name }}
+                                </a>
+                            </p>
+                        </div>
+
                         <div class="flex justify-end mt-4">
                             <a href="{{ route('flashcardSet.show', $flashcardSet) }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm font-medium transition">
                                 View Set

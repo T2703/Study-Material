@@ -1,4 +1,10 @@
 <x-guest-layout>
+    <div class="text-center mt-8">
+        <h2 class="text-3xl font-bold leading-tight text-gray-800">
+            Register
+        </h2>
+    </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 

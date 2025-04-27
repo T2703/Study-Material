@@ -5,9 +5,26 @@
         <h2 class="text-2xl font-bold leading-tight text-gray-800">
             {{ $flashcardSet->title }}
         </h2>
-        <p class="text-sm text-gray-500 mt-1">
-            By: <a href="{{ route('profile.show', $flashcardSet->user->id) }}" class="hover:underline">{{ $flashcardSet->user->name }}</a>
-        </p>
+
+        <div class="flex items-center space-x-2">
+            <p class="text-sm text-gray-500">By: 
+                <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}" class="hover:underline">
+                    {{ $flashcardSet->user->name }}
+                </a>
+            </p>
+            <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}">
+                @if ($flashcardSet->user->profile_picture)
+                    <img src="{{ asset('storage/' . $flashcardSet->user->profile_picture) }}" 
+                        alt="Profile Picture" 
+                        class="rounded-full w-10 h-10 object-cover">
+                @else
+                    <img src="{{ asset('images/default_profile.png') }}" 
+                        alt="Default Picture" 
+                        class="rounded-full w-10 h-10 object-cover">
+                @endif
+            </a>
+        </div>
+        
         @if ($flashcardSet->user_id != auth()->id())
             <form action="{{ route('favorite.toggle', ['type' => 'flashcard', 'id' => $flashcardSet->id]) }}" method="POST">
                 @csrf

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class ProfileController extends Controller
@@ -30,14 +31,33 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user = $request->user(); // get the authenticated user
+    
+        // Update the fields validated by the ProfileUpdateRequest
+        $user->fill($request->validated());
+    
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
-
-        $request->user()->save();
-
+    
+        // Handle the profile picture
+        if ($request->hasFile('profile_picture')) {
+            $request->validate([
+                'profile_picture' => ['nullable', 'image', 'max:2048'], // only validate if file present
+            ]);
+    
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+    
+            // Delete old picture if exists
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+    
+            $user->profile_picture = $path;
+        }
+    
+        $user->save();
+    
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
@@ -74,7 +94,7 @@ class ProfileController extends Controller
         $flashcardSets = FlashcardSet::where('user_id', $profile->id)
             ->orderBy('created_at', 'desc')
             ->get();
-
+            
         return view('profile.show', compact('profile', 'quizzes', 'flashcardSets'));
     }
 

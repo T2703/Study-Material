@@ -135,7 +135,26 @@
                 @forelse ($favoriteQuizzes as $favoriteQuiz)
                     <div x-favorite-card class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $favoriteQuiz->title }}</h4>
-                        <a href="{{ route('profile.show', $favoriteQuiz->user->id) }}" class="text-sm text-gray-500">By: {{ $favoriteQuiz->user->name }}</a>
+
+                        <div class="flex items-center space-x-2">
+                            <p class="text-sm text-gray-500">By: 
+                                <a href="{{ route('profile.show', ['profile' => $favoriteQuiz->user->id, 'tab' => 'quizzes']) }}" class="hover:underline">
+                                    {{ $favoriteQuiz->user->name }}
+                                </a>
+                            </p>
+                            <a href="{{ route('profile.show', ['profile' => $favoriteQuiz->user->id, 'tab' => 'quizzes']) }}">
+                                @if ($favoriteQuiz->user->profile_picture)
+                                    <img src="{{ asset('storage/' . $favoriteQuiz->user->profile_picture) }}" 
+                                        alt="Profile Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @else
+                                    <img src="{{ asset('images/default_profile.png') }}" 
+                                        alt="Default Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @endif
+                            </a>
+                        </div>
+
                         <div class="flex justify-end mt-4">
                             <a href="{{ route('quiz.take', $favoriteQuiz) }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm font-medium transition">
                                 Take Quiz
@@ -185,7 +204,26 @@
                 @forelse ($favoriteFlashcardSets as $favoriteFlashcardSet)
                     <div x-favorite-card class="relative bg-white shadow-md rounded-lg p-4">
                         <h4 class="text-lg font-semibold mb-2">{{ $favoriteFlashcardSet->title }}</h4>
-                        <a href="{{ route('profile.show', $favoriteFlashcardSet->user->id) }}" class="text-sm text-gray-500">By: {{ $favoriteFlashcardSet->user->name }}</a>
+
+                        <div class="flex items-center space-x-2">
+                            <p class="text-sm text-gray-500">By: 
+                                <a href="{{ route('profile.show', ['profile' => $favoriteFlashcardSet->user->id, 'tab' => 'flashcards']) }}" class="hover:underline">
+                                    {{ $favoriteFlashcardSet->user->name }}
+                                </a>
+                            </p>
+                            <a href="{{ route('profile.show', ['profile' => $favoriteFlashcardSet->user->id, 'tab' => 'flashcards']) }}">
+                                @if ($favoriteFlashcardSet->user->profile_picture)
+                                    <img src="{{ asset('storage/' . $favoriteFlashcardSet->user->profile_picture) }}" 
+                                        alt="Profile Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @else
+                                    <img src="{{ asset('images/default_profile.png') }}" 
+                                        alt="Default Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @endif
+                            </a>
+                        </div>
+
                         <div class="flex justify-end mt-4">
                             <a href="{{ route('flashcardSet.show', $favoriteFlashcardSet) }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm font-medium transition">
                                 View Set
@@ -245,9 +283,26 @@
                                 {{ $item instanceof \App\Models\Quiz ? 'Quiz' : 'Flashcards' }}
                             </span>
                         </h4>
-                        <a href="{{ route('profile.show', $item->user->id) }}" class="text-sm text-gray-500">
-                            By: {{ $item->user->name }}
-                        </a>
+
+                        <div class="flex items-center space-x-2">
+                            <p class="text-sm text-gray-500">By: 
+                                <a href="{{ route('profile.show', ['profile' => $item->user->id, 'tab' => 'quizzes']) }}" class="hover:underline">
+                                    {{ $item->user->name }}
+                                </a>
+                            </p>
+                            <a href="{{ route('profile.show', ['profile' => $item->user->id, 'tab' => 'quizzes']) }}">
+                                @if ($item->user->profile_picture)
+                                    <img src="{{ asset('storage/' . $item->user->profile_picture) }}" 
+                                        alt="Profile Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @else
+                                    <img src="{{ asset('images/default_profile.png') }}" 
+                                        alt="Default Picture" 
+                                        class="rounded-full w-10 h-10 object-cover">
+                                @endif
+                            </a>
+                        </div>
+                        
                         <div class="flex justify-end mt-4">
                             <a href="{{ $item instanceof \App\Models\Quiz ? route('quiz.take', $item) : route('flashcardSet.show', $item) }}" 
                             class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm font-medium transition">
