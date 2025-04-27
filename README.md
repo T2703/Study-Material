@@ -57,3 +57,15 @@ npm run dev
 php artisan migrate
 ```
 Now you should be able to run the application.
+
+If you're trying to create an account make sure you find laravel.log as that's where the verification link is sent.
+_________________________
+# Pictures
+![image](https://github.com/user-attachments/assets/73e26a71-7b1e-4a02-9c14-e1047f95d9be)
+![image](https://github.com/user-attachments/assets/0ec09b8a-6fbe-4ad5-b2ee-78ba89f70763)
+![image](https://github.com/user-attachments/assets/be5ae236-28c8-4589-ae5d-bbcb99346247)
+![image](https://github.com/user-attachments/assets/462a1f88-63de-44b0-89c3-1e1a9c8aac22)
+![image](https://github.com/user-attachments/assets/3b488f5e-58fa-4098-b07f-345ec11492b1)
+
+
+
