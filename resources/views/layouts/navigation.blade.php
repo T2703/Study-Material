@@ -22,6 +22,12 @@
                     </x-nav-link>
                 </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="https://docs.google.com/forms/d/e/1FAIpQLSds2N_4ui79LxqhfhmpIvC2PO6tRMdsUz4m82aOW4nL8PWW2A/viewform?usp=header">
+                        {{ __('Feedback') }}
+                    </x-nav-link>
+                </div>
+
                 <!-- For the Create Menu Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
