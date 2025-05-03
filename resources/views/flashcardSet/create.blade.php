@@ -48,6 +48,12 @@
 
     function addFlashcard() {
         const container = document.getElementById('flashcardsContainer');
+
+        if (container.children.length >= 100) {
+            alert("You can only add up to 100 flashcards.");
+            return;
+        }
+
         const fcIndex = flashcardIndex++;
 
         const block = document.createElement('div');

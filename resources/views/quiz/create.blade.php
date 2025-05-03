@@ -47,6 +47,12 @@
 
     function addQuestion() {
         const container = document.getElementById('questionsContainer');
+        
+        if (container.children.length >= 100) {
+            alert("You can only add up to 100 questions.");
+            return;
+        }
+
         const qIndex = questionIndex++;
 
         const questionBlock = document.createElement('div');

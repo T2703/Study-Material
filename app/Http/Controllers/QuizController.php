@@ -37,10 +37,10 @@ class QuizController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'questions' => ['required', 'array', 'min:1'],
+            'questions' => ['required', 'array', 'min:1', 'max:100'],
             'questions.*.question' => ['required', 'string'],
             'questions.*.correct' => ['required', 'integer'],
-            'questions.*.answers' => ['array'],
+            'questions.*.answers' => ['required', 'array', 'min:2', 'max:6'],
             'questions.*.answers.*' => ['required', 'string'],
         ]);
 
@@ -103,11 +103,11 @@ class QuizController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'questions' => ['required', 'array', 'min:1'],
+            'questions' => ['required', 'array', 'min:1', 'max:100'],
             'questions.*.id' => ['nullable', 'integer'],
             'questions.*.question' => ['required', 'string'],
             'questions.*.correct' => ['required', 'integer'],
-            'questions.*.answers' => ['array'],
+            'questions.*.answers' => ['required', 'array', 'min:2', 'max:6'],
             'questions.*.answers.*' => ['required', 'string'],
         ]);
 

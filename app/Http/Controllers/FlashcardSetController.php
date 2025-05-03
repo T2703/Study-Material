@@ -32,7 +32,7 @@ class FlashcardSetController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'flashcards' => ['required', 'array', 'min:1'],
+            'flashcards' => ['required', 'array', 'min:1', 'max:100'],
             'flashcards.*.question' => ['required', 'string'],
             'flashcards.*.answer' => ['required', 'string'],
         ]);
@@ -93,7 +93,7 @@ class FlashcardSetController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'flashcards' => ['required', 'array', 'min:1'],
+            'flashcards' => ['required', 'array', 'min:1', 'max:100'],
             'flashcards.*.question' => ['required', 'string'],
             'flashcards.*.answer' => ['required', 'string'],
         ]);
