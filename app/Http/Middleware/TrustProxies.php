@@ -5,13 +5,18 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Middleware\TrustProxies as Middleware;
 
-class TrustProxies
+class TrustProxies extends Middleware
 {
     protected $proxies = '*'; // Trust all proxies
 
-    protected $headers = Request::HEADER_X_FORWARDED_ALL;
-    
+    protected $headers = Request::HEADER_X_FORWARDED_FOR
+                        | Request::HEADER_X_FORWARDED_HOST
+                        | Request::HEADER_X_FORWARDED_PORT
+                        | Request::HEADER_X_FORWARDED_PROTO
+                        | Request::HEADER_X_FORWARDED_AWS_ELB;
+
     /**
      * Handle an incoming request.
      *
