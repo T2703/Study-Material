@@ -1,4 +1,4 @@
-@vite(['resources/css/flashcard.css'])
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 
 <x-app-layout>
     <x-slot name="header">
