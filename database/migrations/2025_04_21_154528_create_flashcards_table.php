@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -13,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('flashcards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('flashcard_set_id')->constrained()->onDelete('cascade');
+            $table->foreignId('flashcard_set_id')->constrained('flashcard_sets')->onDelete('cascade');
             $table->text('question');
             $table->text('answer');
             $table->timestamps();
