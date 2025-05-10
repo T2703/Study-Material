@@ -11,6 +11,7 @@
                         {{ $quiz->user->name }}
                     </a>
                 </p>
+                {{-- 
                 <a href="{{ route('profile.show', ['profile' => $quiz->user->id, 'tab' => 'flashcards']) }}">
                     @if ($quiz->user->profile_picture)
                         <img src="{{ asset('storage/' . $quiz->user->profile_picture) }}" 
@@ -22,6 +23,7 @@
                             class="rounded-full w-10 h-10 object-cover">
                     @endif
                 </a>
+                --}} 
             </div>
     
             @if ($quiz->user_id != auth()->id())

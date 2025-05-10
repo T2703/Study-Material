@@ -18,6 +18,7 @@
         @method('patch')
 
         <!-- Profile Picture -->
+        {{-- 
         <div>
             <x-input-label for="profile_picture" :value="__('Profile Picture')" />
 
@@ -34,6 +35,7 @@
 
             <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
         </div>
+        --}}
 
         <div>
             <x-input-label for="name" :value="__('Name')" />

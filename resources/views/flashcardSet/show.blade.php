@@ -12,6 +12,7 @@
                     {{ $flashcardSet->user->name }}
                 </a>
             </p>
+            {{-- 
             <a href="{{ route('profile.show', ['profile' => $flashcardSet->user->id, 'tab' => 'flashcards']) }}">
                 @if ($flashcardSet->user->profile_picture)
                     <img src="{{ asset('storage/' . $flashcardSet->user->profile_picture) }}" 
@@ -23,6 +24,7 @@
                         class="rounded-full w-10 h-10 object-cover">
                 @endif
             </a>
+            --}} 
         </div>
         
         @if ($flashcardSet->user_id != auth()->id())

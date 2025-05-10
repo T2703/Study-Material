@@ -142,6 +142,8 @@
                                     {{ $favoriteQuiz->user->name }}
                                 </a>
                             </p>
+
+                            {{-- 
                             <a href="{{ route('profile.show', ['profile' => $favoriteQuiz->user->id, 'tab' => 'quizzes']) }}">
                                 @if ($favoriteQuiz->user->profile_picture)
                                     <img src="{{ asset('storage/' . $favoriteQuiz->user->profile_picture) }}" 
@@ -153,6 +155,7 @@
                                         class="rounded-full w-10 h-10 object-cover">
                                 @endif
                             </a>
+                            --}}
                         </div>
 
                         <div class="flex justify-end mt-4">
@@ -211,6 +214,7 @@
                                     {{ $favoriteFlashcardSet->user->name }}
                                 </a>
                             </p>
+                            {{-- 
                             <a href="{{ route('profile.show', ['profile' => $favoriteFlashcardSet->user->id, 'tab' => 'flashcards']) }}">
                                 @if ($favoriteFlashcardSet->user->profile_picture)
                                     <img src="{{ asset('storage/' . $favoriteFlashcardSet->user->profile_picture) }}" 
@@ -222,6 +226,7 @@
                                         class="rounded-full w-10 h-10 object-cover">
                                 @endif
                             </a>
+                            --}} 
                         </div>
 
                         <div class="flex justify-end mt-4">
@@ -290,6 +295,7 @@
                                     {{ $item->user->name }}
                                 </a>
                             </p>
+                            {{-- 
                             <a href="{{ route('profile.show', ['profile' => $item->user->id, 'tab' => 'quizzes']) }}">
                                 @if ($item->user->profile_picture)
                                     <img src="{{ asset('storage/' . $item->user->profile_picture) }}" 
@@ -301,6 +307,7 @@
                                         class="rounded-full w-10 h-10 object-cover">
                                 @endif
                             </a>
+                            --}} 
                         </div>
                         
                         <div class="flex justify-end mt-4">

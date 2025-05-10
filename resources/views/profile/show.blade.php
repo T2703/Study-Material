@@ -6,7 +6,7 @@
                 <h2 class="text-2xl font-bold leading-tight text-gray-800">
                     {{ $profile->name }}
                 </h2>
-    
+                {{-- 
                 @if ($profile->profile_picture)
                     <img src="{{ asset('storage/' . $profile->profile_picture) }}" 
                         alt="Profile Picture" 
@@ -16,6 +16,7 @@
                         alt="Default Picture" 
                         class="rounded-full w-10 h-10 object-cover">
                 @endif
+                --}}
             </div>
     
             <!-- Right side: Report button -->
