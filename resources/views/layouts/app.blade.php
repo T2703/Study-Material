@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3995765619595698"
+            crossorigin="anonymous"></script>
+
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
