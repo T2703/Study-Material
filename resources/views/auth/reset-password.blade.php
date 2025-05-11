@@ -30,6 +30,8 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <p>Password should include 8 characters, one uppercase letter, one number, and one special character</p>
+
         <div class="flex items-center justify-end mt-4">
             <x-primary-button>
                 {{ __('Reset Password') }}
